@@ -1,0 +1,19 @@
+{
+    "id": "",
+    "nome": "",
+    "email": "",
+    "tipo": "",
+    "validadeMatricula": "",
+    "historico": [
+        {
+            "tituloLivro":"",
+            "id":"",
+            "dataEmprestimo":"",
+            "dataDevolutiva":"",
+            "valorMulta":"",
+            "valorAdicional":"",
+            "observacoes":"",
+            "multaPaga":false
+        }
+    ]
+}

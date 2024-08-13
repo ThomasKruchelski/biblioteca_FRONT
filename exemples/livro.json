@@ -1,0 +1,17 @@
+{
+    "id": "",
+    "codigoUnico": "",
+    "titulo": "",
+    "dataPublicada": "",
+    "temas":[],
+    "autores": [],
+    "editoras": [],
+    "palavrasChaves": [],
+    "resumo": "",
+    "exemplares": [
+        {
+            "id": "",
+            "ocupado": false
+        }
+    ]
+}
