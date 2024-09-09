@@ -4,6 +4,7 @@ import { useState } from "react";
 
 export default function UserProfile() {
     return (
+    <body>
      //Container Principal
         <div class="max-w-4xl mx-auto my-10 bg-white p-6 rounded-lg shadow-md">
             {/* Informações do Perfil */}
@@ -65,5 +66,6 @@ export default function UserProfile() {
                 </a>
             </div>
         </div>
+    </body>
     )
 }
