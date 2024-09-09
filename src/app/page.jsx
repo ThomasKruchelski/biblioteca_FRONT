@@ -145,9 +145,9 @@ export default function Home() {
                 <option>Todas as Categorias</option>
               </select>
               <div class="flex items-center">
-                <span class="mr-2">Usuário</span>
-                <img src="https://via.placeholder.com/40" alt="User avatar" class="rounded-full"/>
-              </div>
+                        <a href="user-profile.html" class="mr-2 text-blue-500 hover:underline">Usuário</a>
+                        <img src="https://via.placeholder.com/40" alt="User avatar" class="rounded-full"/>
+              </div>    
             </div>
           </header>
 
