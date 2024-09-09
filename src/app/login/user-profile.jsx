@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-export default function user_profile() {
+export default function UserProfile() {
     return (
      //Container Principal
         <div class="max-w-4xl mx-auto my-10 bg-white p-6 rounded-lg shadow-md">
