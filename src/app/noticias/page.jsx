@@ -1,9 +1,6 @@
 "use client";
-import Image from "next/image";
-import { useState } from "react";
-import bgLogin from '../../../public/tela-login.jpg'
 
-export default function login() {
+export default function noticias() {
     return (
         <main class="bg-purple-50 text-gray-900">
 
