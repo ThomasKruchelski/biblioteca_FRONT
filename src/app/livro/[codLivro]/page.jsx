@@ -1,6 +1,18 @@
 "use client";
 
-export default function perfil() {
+// import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+
+export default function livro({params}) {
+
+    // const router = useRouter();
+
+    // useEffect(()=>{
+    //     console.log(router)
+    // },[])
+
+    const {codLivro} = params
+
     return (
         <main class="bg-gray-100">
 
@@ -10,9 +22,10 @@ export default function perfil() {
                 <div class="flex items-center mb-6">
                     <img src="https://via.placeholder.com/100" alt="User Avatar" class="rounded-full w-24 h-24 mr-4"/>
                     <div>
-                        <h2 class="text-2xl font-semibold">Nome do Usuário</h2>
-                        <p class="text-gray-600">Email: usuario@email.com</p>
+                        <h2 class="text-2xl font-semibold text-black">{codLivro}</h2>
+                        {/* <p class="text-gray-600">{email}</p>
                         <p class="text-gray-600">Membro desde: Janeiro 2023</p>
+                        <p class="text-gray-600">{email}</p> */}
                     </div>
                 </div>
 
