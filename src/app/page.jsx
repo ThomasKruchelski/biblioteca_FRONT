@@ -4,11 +4,7 @@ import { useState } from "react";
 
 export default function Home() {
 
-
-
   const usuario = "Domanski"
-
-
 
   const [livros, setLivros] = useState([
     {
@@ -61,6 +57,23 @@ export default function Home() {
         },
         {
           "id": "32104",
+          "ocupado": false
+        }
+      ]
+    },
+    {
+      "id": "456",
+      "codigoUnico": "456",
+      "titulo": "Como ser padrasto",
+      "dataPublicada": "2024-02-10",
+      "temas": ["educação", "filhos", "java"],
+      "autores": ["Jeferson Jeferson"],
+      "editoras": ["Mili"],
+      "palavrasChaves": ["filho", "casada", "educação", "sofrimento", "manual"],
+      "resumo": "Título para aprender a ser um bom pai",
+      "exemplares": [
+        {
+          "id": "45601",
           "ocupado": false
         }
       ]
