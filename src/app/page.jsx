@@ -146,48 +146,20 @@ export default function Home() {
               </select>
               <div class="flex items-center">
                 <span class="mr-2">Usuário</span>
-                <img src="https://via.placeholder.com/40" alt="User avatar" class="rounded-full"/>
+                <img src="https://via.placeholder.com/40" alt="User avatar" class="rounded-full" />
               </div>
             </div>
           </header>
 
           <section class="grid grid-cols-2 gap-6">
-            <div class="bg-white p-6 rounded-lg shadow-md">
-              <img src="https://via.placeholder.com/100x150" alt="Lorem ipsum" class="mb-4"/>
-                <h2 class="text-lg font-semibold mb-2">Lorem ipsum 1</h2>
-                <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            {livros.map((livro) => (
+              <div class="bg-white p-6 rounded-lg shadow-md">
+                <img src="https://via.placeholder.com/100x150" alt="Lorem ipsum" class="mb-4" />
+                <h2 class="text-lg font-semibold mb-2 text-[#000]">{livro.titulo}</h2>
+                <p class="text-gray-600 mb-4">{livro.resumo}</p>
                 <button class="bg-purple-600 text-white px-4 py-2 rounded-lg">Leia mais</button>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-md">
-              <img src="https://via.placeholder.com/100x150" alt="Lorem ipsum" class="mb-4"/>
-                <h2 class="text-lg font-semibold mb-2">Lorem ipsum 2</h2>
-                <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <button class="bg-purple-600 text-white px-4 py-2 rounded-lg">Leia mais</button>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-md">
-              <img src="https://via.placeholder.com/100x150" alt="Lorem ipsum" class="mb-4"/>
-                <h2 class="text-lg font-semibold mb-2">Lorem ipsum 3</h2>
-                <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <button class="bg-purple-600 text-white px-4 py-2 rounded-lg">Leia mais</button>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-md">
-              <img src="https://via.placeholder.com/100x150" alt="Lorem ipsum" class="mb-4"/>
-                <h2 class="text-lg font-semibold mb-2">Lorem ipsum 4</h2>
-                <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <button class="bg-purple-600 text-white px-4 py-2 rounded-lg">Leia mais</button>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-md">
-              <img src="https://via.placeholder.com/100x150" alt="Lorem ipsum" class="mb-4"/>
-                <h2 class="text-lg font-semibold mb-2">Lorem ipsum 5</h2>
-                <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <button class="bg-purple-600 text-white px-4 py-2 rounded-lg">Leia mais</button>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow-md">
-              <img src="https://via.placeholder.com/100x150" alt="Lorem ipsum" class="mb-4"/>
-                <h2 class="text-lg font-semibold mb-2">Lorem ipsum 6</h2>
-                <p class="text-gray-600 mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-                <button class="bg-purple-600 text-white px-4 py-2 rounded-lg">Leia mais</button>
-            </div>
+              </div>
+            ))}
           </section>
         </main>
       </div>
