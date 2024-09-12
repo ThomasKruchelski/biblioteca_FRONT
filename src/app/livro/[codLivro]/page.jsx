@@ -73,14 +73,14 @@ export default function livro({params}) {
 
                 {/* <!-- Atualizar Dados --> */}
                 <div class="text-right">
-                    <a href="/edit-profile" class="bg-purple-700 hover:bg-purple-600 text-white font-semibold py-2 px-4 rounded">
+                    <a href="" class="bg-purple-700 hover:bg-purple-600 text-white font-semibold py-2 px-4 rounded">
                         Atualizar Dados Cadastrais
                     </a>
                 </div>
 
                 {/* <!-- Botão Voltar para Home --> */}
                 <div class="mt-8 text-center">
-                    <a href="index.html" class="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-600">Tela inicial</a>
+                    <a href="./" class="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-600">Tela inicial</a>
                 </div>
             </div>
 
