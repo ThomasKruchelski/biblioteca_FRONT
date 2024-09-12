@@ -9,9 +9,9 @@ export default function noticias() {
                 <div class="container mx-auto flex justify-between items-center">
                     <a href="#" class="text-white text-2xl font-semibold">Biblioteca Online</a>
                     <ul class="flex space-x-6">
-                        <li><a href="./index.html" class="text-white hover:underline">Início</a></li>
+                        <li><a href="./" class="text-white hover:underline">Início</a></li>
                         <li><a href="#" class="text-white hover:underline">Catálogo</a></li>
-                        <li><a href="./user-profile.html" class="text-white hover:underline">Perfil</a></li>
+                        <li><a href="/perfil" class="text-white hover:underline">Perfil</a></li>
                     </ul>
                 </div>
             </nav>

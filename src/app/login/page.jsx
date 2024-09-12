@@ -26,12 +26,12 @@ export default function login() {
                                     type="password" id="password" placeholder="Digite a sua senha" aria-label="password" required />
                             </div>
                             <div class="flex items-center justify-between mb-4">
-                                <button class="px-4 py-2 text-white font-medium tracking-wider bg-gray-900 hover:bg-gray-800 rounded"
-                                    type="submit">Entrar</button>
+                                <a class="px-4 py-2 text-white font-medium tracking-wider bg-gray-900 hover:bg-gray-800 rounded"
+                                    type="submit" href="/noticias">Entrar</a>
                                 <a class="text-sm text-white hover:text-red-400" href="#">Esqueceu a senha?</a>
                             </div>
                             <div class="text-center">
-                                <a class="text-sm text-white hover:text-red-400" href="#">Criar uma conta</a>
+                                <a class="text-sm text-white hover:text-red-400" href="">Criar uma conta</a>
                             </div>
                         </form>
                     </div>
