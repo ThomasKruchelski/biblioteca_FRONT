@@ -22,25 +22,36 @@ export default function login() {
     useEffect(()=>{console.log(login);console.log('login')},[login])
 
     async function fetchLogin() {
-        fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(login),
-        })
-        .then(response => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(login),
+            });
+    
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-            return response.json();
-        })
-        .then(data => {
+    
+            const data = await response.json();
+    
+            // Supondo que o JWT esteja em `data.token`
+            const token = data.token;
+    
+            // Define a expiração do token para 1 dia a partir de agora (em milissegundos)
+            const expiresIn = 24 * 60 * 60 * 1000; // 1 dia em milissegundos
+            const expirationDate = new Date().getTime() + expiresIn;
+    
+            // Armazena o token e a data de expiração no localStorage
+            localStorage.setItem('authToken', token);
+            localStorage.setItem('tokenExpiration', expirationDate);
+    
             console.log('Success:', data);
-        })
-        .catch((error) => {
+        } catch (error) {
             console.error('Error:', error);
-        });
+        }
     }
 
     return (

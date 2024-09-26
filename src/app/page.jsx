@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Home() {
 
@@ -97,6 +97,60 @@ export default function Home() {
     }
   ])
 
+  function isTokenValid() {
+    const token = localStorage.getItem('authToken');
+    const expirationDate = localStorage.getItem('tokenExpiration');
+
+    // Verifica se o token existe e se não expirou
+    if (token && expirationDate) {
+      const validDate = new Date().getTime() < expirationDate;
+      // return validDate
+      if (validDate){
+        return decodeJWT(token)
+      }
+      
+    }
+
+    return false;
+  }
+
+  function decodeJWT(token) {
+    // Divide o token em suas três partes
+    const parts = token.split('.');
+    
+    // Verifica se o token possui três partes
+    if (parts.length !== 3) {
+      throw new Error('Token inválido!');
+    }
+  
+    // A parte do meio é o payload (dados do token)
+    const payload = parts[1];
+    
+    // Decodifica a string base64 para obter o JSON
+    const decodedPayload = atob(payload);
+  
+    // Analisa o JSON para um objeto JavaScript
+    try {
+      return JSON.parse(decodedPayload);
+    } catch (e) {
+      throw new Error('Falha ao analisar o payload JSON');
+    }
+  }
+
+  //essa aqui é pra deslogar o user
+  function clearExpiredToken() {
+    if (!isTokenValid()) {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('tokenExpiration');
+        console.log('Token expirado foi removido.');
+    }
+}
+
+  useEffect(()=> {
+    console.log(isTokenValid())
+    console.log('isTokenValid()')
+  },[])
+
   return (
 
     // <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -158,9 +212,9 @@ export default function Home() {
                 <option>Todas as Categorias</option>
               </select>
               <div class="flex items-center">
-                        <a href="/perfil" class="mr-2 text-blue-500 hover:underline">Usuário</a>
-                        <img src="https://via.placeholder.com/40" alt="User avatar" class="rounded-full"/>
-              </div>    
+                <a href="/perfil" class="mr-2 text-blue-500 hover:underline">Usuário</a>
+                <img src="https://via.placeholder.com/40" alt="User avatar" class="rounded-full" />
+              </div>
             </div>
           </header>
 
