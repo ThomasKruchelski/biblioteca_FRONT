@@ -11,9 +11,9 @@ export default function gestaoUsuarios() {
 
     useEffect(() => {
         if (isTokenValid()) {
-            console.log(isTokenValid(false))
-            console.log('isTokenValid()')
-            // setUserInfo(isTokenValid())
+            // console.log(isTokenValid(false))
+            // console.log('isTokenValid()')
+            setToken(isTokenValid(false))
         } else {
             clearExpiredToken()
         }
@@ -39,9 +39,6 @@ export default function gestaoUsuarios() {
                         Authorization: testeFu
                     },
                 });
-
-                console.log(response)
-                console.log('response')
 
                 if (!response.ok) {
                     throw new Error('Erro ao buscar usuários');
