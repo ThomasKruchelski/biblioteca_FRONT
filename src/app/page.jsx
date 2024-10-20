@@ -5,8 +5,7 @@ import { isTokenValid, clearExpiredToken } from '@/utils/verificaToken'
 
 export default function Home() {
 
-  const usuario = "Domanski"
-
+  const [token, setToken] = useState('')
   const [livros, setLivros] = useState([
     {
       "id": "123",
@@ -97,11 +96,13 @@ export default function Home() {
       ]
     }
   ])
+  const [userInfo, setUserInfo] = useState({})
 
   useEffect(() => {
     if(isTokenValid()){
-      console.log(isTokenValid())
+      console.log(isTokenValid(true))
       console.log('isTokenValid()')
+      // setUserInfo(isTokenValid())
     } else {
       clearExpiredToken()
     }

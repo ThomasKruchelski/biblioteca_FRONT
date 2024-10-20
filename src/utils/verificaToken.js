@@ -1,4 +1,4 @@
-export function isTokenValid() {
+export function isTokenValid( returnInfo ) {
     const token = localStorage.getItem('authToken');
     const expirationDate = localStorage.getItem('tokenExpiration');
 
@@ -7,7 +7,11 @@ export function isTokenValid() {
         const validDate = new Date().getTime() < expirationDate;
         // return validDate
         if (validDate) {
-            return decodeJWT(token)
+            if(returnInfo){
+                return decodeJWT(token)
+            }else{
+                return token
+            }
         }
 
     }
