@@ -15,22 +15,27 @@ export default function Home() {
 
   useEffect(() => {
     if (isTokenValid()) {
-      console.log(isTokenValid(true))
-      console.log('isTokenValid()')
-      // setUserInfo(isTokenValid())
+      // console.log(isTokenValid(false))
+      // console.log('isTokenValid()')
+      setToken(isTokenValid())
     } else {
       clearExpiredToken()
     }
   }, [])
+
+  useEffect(()=> {
+    console.log(token)
+    console.log('token')
+  },[token])
 
   useEffect(() => {
     const fetchLivros = async () => {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/livros`, {
           method: 'GET',
-          mode: 'no-cors',
           headers: {
             'Content-Type': 'aplication/json',
+            'Authorization': `Bearer ${token}`
           },
         });
 
@@ -50,7 +55,7 @@ export default function Home() {
 
     }
     fetchLivros()
-  }, [])
+  }, [token])
 
   return (
 

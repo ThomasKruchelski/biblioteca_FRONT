@@ -1,4 +1,4 @@
-export function isTokenValid( returnInfo ) {
+export function isTokenValid(returnInfo) {
     const token = localStorage.getItem('authToken');
     const expirationDate = localStorage.getItem('tokenExpiration');
 
@@ -7,9 +7,9 @@ export function isTokenValid( returnInfo ) {
         const validDate = new Date().getTime() < expirationDate;
         // return validDate
         if (validDate) {
-            if(returnInfo){
+            if (returnInfo) {
                 return decodeJWT(token)
-            }else{
+            } else {
                 return token
             }
         }
@@ -45,8 +45,14 @@ export function decodeJWT(token) {
 //essa aqui é pra deslogar o user
 export function clearExpiredToken() {
     if (!isTokenValid()) {
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('tokenExpiration');
-        console.log('Token expirado foi removido.');
+        try {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('tokenExpiration');
+            console.log('Token expirado foi removido.');
+
+        } catch (error) {
+            console.error('Token não encontrado: ' + error)
+        }
+
     }
 }
