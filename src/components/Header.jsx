@@ -37,7 +37,7 @@ export default function Header() {
                         }
                         <li className="flex items-center">
                             <a href={'../perfil/' + userInfo.sub} className="text-white hover:underline pr-2">{userInfo.name}</a>
-                            <img src="https://via.placeholder.com/40" alt="User avatar" class="rounded-full" />
+                            <img src="https://via.placeholder.com/40" alt="User avatar" className="rounded-full" />
                         </li>
 
                     </ul>
