@@ -3,7 +3,14 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import bgLogin from '../../../public/tela-login.jpg'
 
+import { useRouter } from 'next/navigation';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export default function login() {
+
+    const router = useRouter();
 
     const [login, setLogin] = useState({
         userName: '',
@@ -12,14 +19,14 @@ export default function login() {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        
+
         setLogin((prevState) => ({
             ...prevState,
             [name]: value
         }));
     };
 
-    useEffect(()=>{console.log(login);console.log('login')},[login])
+    useEffect(() => { console.log(login); console.log('login') }, [login])
 
     async function fetchLogin() {
         try {
@@ -30,25 +37,37 @@ export default function login() {
                 },
                 body: JSON.stringify(login),
             });
-    
+
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
-    
+
             const data = await response.json();
-    
+
             // Supondo que o JWT esteja em `data.token`
             const token = data.token;
-    
+
             // Define a expiração do token para 1 dia a partir de agora (em milissegundos)
             const expiresIn = 24 * 60 * 60 * 1000; // 1 dia em milissegundos
             const expirationDate = new Date().getTime() + expiresIn;
-    
+
             // Armazena o token e a data de expiração no localStorage
             localStorage.setItem('authToken', token);
             localStorage.setItem('tokenExpiration', expirationDate);
-    
+
             console.log('Success:', data);
+            toast.success(`Seja bem vindo, ${login.userName}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                
+            });
+            router.push('..');
         } catch (error) {
             console.error('Error:', error);
         }
@@ -79,6 +98,7 @@ export default function login() {
                                 <div class="px-4 py-2 text-white font-medium tracking-wider bg-gray-900 hover:bg-gray-800 rounded" onClick={() => fetchLogin()}>Entrar</div>
                                 <a class="text-sm text-white hover:text-red-400" href="#">Esqueceu a senha?</a>
                             </div>
+                            <ToastContainer />
                             <div class="text-center">
                                 <a type="submit" class="text-sm text-white hover:text-red-400">Criar uma conta</a>
                             </div>

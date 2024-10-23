@@ -1,17 +1,14 @@
 "use client";
 
-// import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function perfil({params}) {
 
-    // const router = useRouter();
-
-    // useEffect(()=>{
-    //     console.log(router)
-    // },[])
-
-    const {email} = params
+    const queryParams = useParams();
+    const queryEmail = decodeURIComponent(queryParams.email)
+    console.log(queryEmail)
+    
 
     return (
         <main class="bg-gray-100">
@@ -22,10 +19,10 @@ export default function perfil({params}) {
                 <div class="flex items-center mb-6">
                     <img src="https://via.placeholder.com/100" alt="User Avatar" class="rounded-full w-24 h-24 mr-4"/>
                     <div>
-                        <h2 class="text-2xl font-semibold text-black">{email}</h2>
-                        <p class="text-gray-600">{email}</p>
+                        <h2 class="text-2xl font-semibold text-black">{queryEmail}</h2>
+                        <p class="text-gray-600"></p>
                         <p class="text-gray-600">Membro desde: Janeiro 2023</p>
-                        <p class="text-gray-600">{email}</p>
+                        <p class="text-gray-600"></p>
                     </div>
                 </div>
 
@@ -80,7 +77,7 @@ export default function perfil({params}) {
 
                 {/* <!-- Botão Voltar para Home --> */}
                 <div class="mt-8 text-center">
-                    <a href="./" class="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-600">Tela inicial</a>
+                    <a href=".." class="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-600">Tela inicial</a>
                 </div>
             </div>
 

@@ -15,6 +15,9 @@ export default function Header() {
             setUserInfo(isTokenValid(true))
             setLoaded(true)
         } else {
+            setUserInfo({
+                name: Convidado
+            })
             clearExpiredToken()
         }
     }, [])
@@ -24,10 +27,19 @@ export default function Header() {
             <nav className="bg-purple-700 p-4">
                 <div className="container mx-auto flex justify-between items-center">
                     <a href=".." className="text-white text-2xl font-semibold">BEM VINDO </a>
-                    <ul className="flex space-x-6">
+                    <ul className="flex space-x-6 justify-center items-center">
                         <li><a href=".." className="text-white hover:underline">Início</a></li>
                         <li><a href="#" className="text-white hover:underline">Catálogo</a></li>
-                        <li><a href={'../perfil/' + userInfo.sub} className="text-white hover:underline">{userInfo.name}</a></li>
+                        {userInfo.authorities.some((authority) =>  authority == "ROLE_ADMIN" ) &&
+                            <li>
+                                <a href="/gestao" className="text-white hover:underline text-800">Menu Gestão</a>
+                            </li>
+                        }
+                        <li className="flex items-center">
+                            <a href={'../perfil/' + userInfo.sub} className="text-white hover:underline pr-2">{userInfo.name}</a>
+                            <img src="https://via.placeholder.com/40" alt="User avatar" class="rounded-full" />
+                        </li>
+
                     </ul>
                 </div>
             </nav>

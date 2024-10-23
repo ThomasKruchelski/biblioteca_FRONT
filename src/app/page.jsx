@@ -115,13 +115,10 @@ export default function Home() {
           <header class="flex justify-between items-center mb-8">
             <h1 class="text-2xl font-semibold">Meus Livros</h1>
             <div class="flex items-center">
-              <select class="bg-white border border-gray-300 rounded-lg py-2 px-3 text-gray-600 mr-4">
+              <select class="bg-white border border-gray-300 rounded-lg py-2 px-3 text-gray-600">
                 <option>Todas as Categorias</option>
               </select>
-              <div class="flex items-center">
-                <a href="/perfil" class="mr-2 text-blue-500 hover:underline">Usuário</a>
-                <img src="https://via.placeholder.com/40" alt="User avatar" class="rounded-full" />
-              </div>
+              
             </div>
           </header>
           {loaded ?
