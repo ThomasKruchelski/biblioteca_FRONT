@@ -56,6 +56,26 @@ export default function perfil({ params }) {
         console.log('usuario')
     }, [usuario])
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+
+        setUsuario((prevState) => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleInputChangeTipoUsuario = (e) => {
+        const { name, value } = e.target;
+
+        setUsuario((prevState) => ({
+            ...prevState,
+            tipoUsuario:{
+                [name]: value
+            }
+        }));
+    };
+
     return (
         <main className=" bg-gray-100 text-gray-900 flex flex-col min-h-[100vh]">
             <Header />
@@ -67,22 +87,32 @@ export default function perfil({ params }) {
                             <input
                                 className='mb-2'
                                 value={usuario.nome}
+                                name='nome'
+                                onChange={handleInputChange}
                             ></input>
                             <input
                                 className='mb-2'
                                 value={usuario.email}
+                                name='email'
+                                onChange={handleInputChange}
                             ></input>
                             <input
                                 className='mb-2'
                                 value={usuario.tipoUsuario.descricao}
+                                name='descricao'
+                                onChange={handleInputChangeTipoUsuario}
                             ></input>
                             <input
                                 className='mb-2'
                                 value={usuario.tipoUsuario.dias_emprestimo}
+                                name='dias_emprestimo'
+                                onChange={handleInputChangeTipoUsuario}
                             ></input>
                             <input
                                 className='mb-2'
                                 value={usuario.tipoUsuario.multa_diaria}
+                                name='multa_diaria'
+                                onChange={handleInputChangeTipoUsuario}
                             ></input>
                         </div>
                         <div className='flex justify-around items-center'>
