@@ -166,9 +166,9 @@ export default function perfil({ params }) {
                         </div>
                         <div className='flex justify-around items-center'>
                             <a href='./'>
-                                <div className='px-4 py-2 rounded bg-[#cc2222] text-white'>Cancelar</div>
+                                <div className='px-4 py-2 rounded bg-[#cc2222] text-white cursor-pointer'>Cancelar</div>
                             </a>
-                            <div onClick={() => fetchAlteraUsuario()} className='px-4 py-2 rounded bg-[#669966] text-white'>Salvar</div>
+                            <div onClick={() => fetchAlteraUsuario()} className='px-4 py-2 rounded bg-[#669966] text-white cursor-pointer'>Salvar</div>
                         </div>
                         <ToastContainer />
                     </div>

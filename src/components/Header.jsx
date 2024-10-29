@@ -1,6 +1,6 @@
 "use client";
 
-import { isTokenValid } from "@/utils/verificaToken";
+import { isTokenValid, clearExpiredToken } from "@/utils/verificaToken";
 import { useEffect, useState } from "react";
 
 export default function Header() {
@@ -16,7 +16,7 @@ export default function Header() {
             setLoaded(true)
         } else {
             setUserInfo({
-                name: Convidado
+                name: 'Convidado'
             })
             clearExpiredToken()
         }
