@@ -1,3 +1,6 @@
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
 export function isTokenValid(returnInfo) {
     const token = localStorage.getItem('authToken');
     const expirationDate = localStorage.getItem('tokenExpiration');
@@ -15,7 +18,6 @@ export function isTokenValid(returnInfo) {
         }
 
     }
-
     return false;
 }
 

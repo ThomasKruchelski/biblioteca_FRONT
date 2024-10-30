@@ -2,9 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { isTokenValid, clearExpiredToken } from '@/utils/verificaToken'
+import { useRouter } from 'next/navigation';
 import Header from "@/components/Header";
 
 export default function gestaoUsuarios() {
+
+    const router = useRouter();
 
     const [usuarios, setUsuarios] = useState({})
     const [token, setToken] = useState({})
@@ -21,7 +24,7 @@ export default function gestaoUsuarios() {
             setToken(isTokenValid(false))
         } else {
             clearExpiredToken()
-            router.push('/login');
+            router.push(`/login`);
         }
     }, [])
 

@@ -2,11 +2,42 @@
 
 import { isTokenValid, clearExpiredToken } from "@/utils/verificaToken";
 import { useEffect, useState } from "react";
+import { usePathname } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
 
     const [userInfo, setUserInfo] = useState({})
     const [loaded, setLoaded] = useState(false)
+    const currentPageUrl = usePathname()
+    const router = useRouter();
+
+    function useCurrentPage() {
+        console.log(currentPageUrl)
+        console.log('currentPageUrl')
+
+        // Verifica se a URL atual contém "/gestão"
+        const isGestaoPage = currentPageUrl.includes('/gestao');
+
+        return { currentPageUrl, isGestaoPage };
+    }
+
+    useEffect(() => {
+        if (loaded) {
+            const { currentPageUrl, isGestaoPage } = useCurrentPage();
+            if (isGestaoPage) {
+                console.log('pagina de gestão')
+                const validado = userInfo.authorities.some((authority) => authority == "ROLE_ADMIN")
+                console.log(validado)
+                console.log('validado')
+                if (validado) {
+
+                } else {
+                    router.push('/login');
+                }
+            }
+        }
+    }, [loaded])
 
     useEffect(() => {
         if (isTokenValid()) {
@@ -30,7 +61,7 @@ export default function Header() {
                     <ul className="flex space-x-6 justify-center items-center">
                         <li><a href=".." className="text-white hover:underline">Início</a></li>
                         <li><a href="#" className="text-white hover:underline">Catálogo</a></li>
-                        {userInfo.authorities.some((authority) =>  authority == "ROLE_ADMIN" ) &&
+                        {userInfo.authorities.some((authority) => authority == "ROLE_ADMIN") &&
                             <li>
                                 <a href="/gestao" className="text-white hover:underline text-800">Menu Gestão</a>
                             </li>

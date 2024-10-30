@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from 'next/navigation';
+import { useParams ,useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { isTokenValid, clearExpiredToken } from '@/utils/verificaToken'
 import Header from '@/components/Header';
@@ -9,6 +9,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function perfil({ params }) {
+
+    const router = useRouter();
 
     const [usuario, setUsuario] = useState({})
     const [loaded, setLoaded] = useState(false)
@@ -127,7 +129,7 @@ export default function perfil({ params }) {
 
     return (
         <main className=" bg-gray-100 text-gray-900 flex flex-col min-h-[100vh]">
-            <Header />
+            <Header router={router} />
             <section className="container bg-purple-50 mx-auto mt-8 px-4 flex flex-col flex-1 h-[100vh]">
                 {loaded &&
                     <div className='flex flex-col'>

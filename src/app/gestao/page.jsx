@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { isTokenValid, clearExpiredToken } from '@/utils/verificaToken'
 import { useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 import Header from "@/components/Header";
 
