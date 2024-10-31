@@ -1,9 +1,78 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import bgLogin from '../../../public/tela-login.jpg'
 
+import { useRouter } from 'next/navigation';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export default function login() {
+
+    const router = useRouter();
+
+    const [login, setLogin] = useState({
+        userName: '',
+        password: ''
+    })
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+
+        setLogin((prevState) => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    useEffect(() => { console.log(login); console.log('login') }, [login])
+
+    async function fetchLogin() {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(login),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+
+            // Supondo que o JWT esteja em `data.token`
+            const token = data.token;
+
+            // Define a expiração do token para 1 dia a partir de agora (em milissegundos)
+            const expiresIn = 24 * 60 * 60 * 1000; // 1 dia em milissegundos
+            const expirationDate = new Date().getTime() + expiresIn;
+
+            // Armazena o token e a data de expiração no localStorage
+            localStorage.setItem('authToken', token);
+            localStorage.setItem('tokenExpiration', expirationDate);
+
+            console.log('Success:', data);
+            toast.success(`Seja bem vindo, ${login.userName}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                
+            });
+            router.push('..');
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
     return (
         <main class="h-screen font-sans login bg-cover">
 
@@ -18,20 +87,20 @@ export default function login() {
                             <div class="mb-4">
                                 <label class="block text-sm text-white" for="email">E-mail</label>
                                 <input class="w-full px-4 py-2 text-gray-700 bg-gray-300 rounded focus:outline-none focus:bg-white"
-                                    type="email" id="email" placeholder="Digite o e-mail" aria-label="email" required />
+                                    type="email" name='userName' onChange={handleInputChange} id="email" placeholder="Digite o e-mail" aria-label="email" required />
                             </div>
                             <div class="mb-4">
                                 <label class="block text-sm text-white" for="password">Senha</label>
                                 <input class="w-full px-4 py-2 text-gray-700 bg-gray-300 rounded focus:outline-none focus:bg-white"
-                                    type="password" id="password" placeholder="Digite a sua senha" aria-label="password" required />
+                                    type="password" name='password' onChange={handleInputChange} id="password" placeholder="Digite a sua senha" aria-label="password" required />
                             </div>
                             <div class="flex items-center justify-between mb-4">
-                                <a class="px-4 py-2 text-white font-medium tracking-wider bg-gray-900 hover:bg-gray-800 rounded"
-                                    type="submit" href="/noticias">Entrar</a>
+                                <div class="px-4 py-2 text-white font-medium tracking-wider bg-gray-900 hover:bg-gray-800 rounded" onClick={() => fetchLogin()}>Entrar</div>
                                 <a class="text-sm text-white hover:text-red-400" href="#">Esqueceu a senha?</a>
                             </div>
+                            <ToastContainer />
                             <div class="text-center">
-                                <a class="text-sm text-white hover:text-red-400" href="">Criar uma conta</a>
+                                <a type="submit" class="text-sm text-white hover:text-red-400">Criar uma conta</a>
                             </div>
                         </form>
                     </div>

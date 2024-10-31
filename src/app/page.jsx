@@ -1,106 +1,67 @@
 "use client";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { isTokenValid, clearExpiredToken } from '@/utils/verificaToken'
+import Header from "@/components/Header";
 
 export default function Home() {
 
-  const usuario = "Domanski"
+  const [loaded, setLoaded] = useState(false)
+  const [token, setToken] = useState('')
+  const [livros, setLivros] = useState(
+    //   
+  )
+  const [userInfo, setUserInfo] = useState({})
 
-  const [livros, setLivros] = useState([
-    {
-      "id": "123",
-      "codigoUnico": "123",
-      "titulo": "Pequeno Princípe",
-      "dataPublicada": "2024-08-13",
-      "temas": ["literatura infantil", "fantasia"],
-      "autores": ["grande principe"],
-      "editoras": ["Rosa do asteróide"],
-      "palavrasChaves": ["pequeno", "principe"],
-      "resumo": "O classico de Pequeno Principe muito irado",
-      "exemplares": [
-        {
-          "id": "12301",
-          "ocupado": false
-        },
-        {
-          "id": "12302",
-          "ocupado": false
-        },
-        {
-          "id": "12303",
-          "ocupado": false
-        }
-      ]
-    },
-    {
-      "id": "321",
-      "codigoUnico": "321",
-      "titulo": "Java como programar DEITEL",
-      "dataPublicada": "2024-08-10",
-      "temas": ["programação", "fantasia", "java"],
-      "autores": ["Fabio Spak"],
-      "editoras": ["Mili"],
-      "palavrasChaves": ["java", "programação", "desenvolvedor", "sofrimento"],
-      "resumo": "Programação em Java para ganhar milhões",
-      "exemplares": [
-        {
-          "id": "32101",
-          "ocupado": true
-        },
-        {
-          "id": "32102",
-          "ocupado": false
-        },
-        {
-          "id": "32103",
-          "ocupado": false
-        },
-        {
-          "id": "32104",
-          "ocupado": false
-        }
-      ]
-    },
-    {
-      "id": "456",
-      "codigoUnico": "456",
-      "titulo": "Como ser padrasto",
-      "dataPublicada": "2024-02-10",
-      "temas": ["educação", "filhos", "java"],
-      "autores": ["Jeferson Jeferson"],
-      "editoras": ["Mili"],
-      "palavrasChaves": ["filho", "casada", "educação", "sofrimento", "manual"],
-      "resumo": "Título para aprender a ser um bom pai",
-      "exemplares": [
-        {
-          "id": "45601",
-          "ocupado": false
-        }
-      ]
-    },
-    {
-      "id": "456",
-      "codigoUnico": "456",
-      "titulo": "Como ser padrasto",
-      "dataPublicada": "2024-02-10",
-      "temas": ["educação", "filhos", "java"],
-      "autores": ["Jeferson Jeferson"],
-      "editoras": ["Mili"],
-      "palavrasChaves": ["filho", "casada", "educação", "sofrimento", "manual"],
-      "resumo": "Título para aprender a ser um bom pai",
-      "exemplares": [
-        {
-          "id": "45601",
-          "ocupado": false
-        }
-      ]
+  useEffect(() => {
+    if (isTokenValid()) {
+      // console.log(isTokenValid(false))
+      // console.log('isTokenValid()')
+      setToken(isTokenValid())
+    } else {
+      clearExpiredToken()
     }
-  ])
+  }, [])
+
+  useEffect(()=> {
+    console.log(token)
+    console.log('token')
+  },[token])
+
+  useEffect(() => {
+    const fetchLivros = async () => {
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/livros`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'aplication/json',
+            'Authorization': `Bearer ${token}`
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Erro ao buscar Livros');
+        }
+
+        const data = await response.json();
+        console.log(data)
+        console.log('data')
+        setLivros(data);
+        setLoaded(true)
+
+      } catch (error) {
+        console.error(error);
+      }
+
+    }
+    fetchLivros()
+  }, [token])
 
   return (
 
     // <main className="flex min-h-screen flex-col items-center justify-between p-24">
     <body class="bg-gray-100 font-sans">
+      <Header />
 
       <div class="flex min-h-screen">
         <aside class="bg-white w-64 p-6">
@@ -154,26 +115,30 @@ export default function Home() {
           <header class="flex justify-between items-center mb-8">
             <h1 class="text-2xl font-semibold">Meus Livros</h1>
             <div class="flex items-center">
-              <select class="bg-white border border-gray-300 rounded-lg py-2 px-3 text-gray-600 mr-4">
+              <select class="bg-white border border-gray-300 rounded-lg py-2 px-3 text-gray-600">
                 <option>Todas as Categorias</option>
               </select>
-              <div class="flex items-center">
-                        <a href="/perfil" class="mr-2 text-blue-500 hover:underline">Usuário</a>
-                        <img src="https://via.placeholder.com/40" alt="User avatar" class="rounded-full"/>
-              </div>    
+              
             </div>
           </header>
+          {loaded ?
+            <section class="grid grid-cols-2 gap-6">
 
-          <section class="grid grid-cols-2 gap-6">
-            {livros.map((livro) => (
-              <div class="bg-white p-6 rounded-lg shadow-md">
-                <img src="https://via.placeholder.com/100x150" alt="Lorem ipsum" class="mb-4" />
-                <h2 class="text-lg font-semibold mb-2 text-[#000]">{livro.titulo}</h2>
-                <p class="text-gray-600 mb-4">{livro.resumo}</p>
-                <button class="bg-purple-600 text-white px-4 py-2 rounded-lg">Leia mais</button>
-              </div>
-            ))}
-          </section>
+              {livros.map((livro) => (
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                  <img src="https://via.placeholder.com/100x150" alt="Lorem ipsum" class="mb-4" />
+                  <h2 class="text-lg font-semibold mb-2 text-[#000]">{livro.titulo}</h2>
+                  <p class="text-gray-600 mb-4">{livro.resumo}</p>
+                  <button class="bg-purple-600 text-white px-4 py-2 rounded-lg">Leia mais</button>
+                </div>
+              ))}
+            </section>
+            :
+            <section class="flex justify-center grid-cols-2 gap-6">
+              Carregando...
+            </section>
+          }
+
         </main>
       </div>
     </body>

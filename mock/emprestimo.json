@@ -1,0 +1,54 @@
+{
+    "id": 1,
+    "data_emprestimo": "2024-10-23T23:20:52.530+00:00",
+    "data_previsao": "2024-10-23T23:20:52.530+00:00",
+    "data_entrega": null,
+    "multa": 0.0,
+    "status": "ATIVO",
+    "livro": {
+        "id": 3,
+        "titulo": "Farmacia Entenda Tudo Sobre",
+        "edicao": 1,
+        "resumo": "Esse livro te ensina farmácia",
+        "ano_publicacao": 2008,
+        "editora": {
+            "id": 1,
+            "nome": "Editora 1",
+            "endereco": "Rua dos Campos, 1001, Centro, Jaquarita",
+            "status": null
+        },
+        "area": {
+            "id": 1,
+            "descricao": "Saúde",
+            "status": null
+        },
+        "autores": [
+            {
+                "id": 2,
+                "nome": "Amanda de Lima",
+                "endereco": "Rua Rui Bento, Centro, Jardopolis",
+                "status": null
+            }
+        ],
+        "codigo": "kjshg1kj2",
+        "quantidade": 3,
+        "quantidadeDisponivel": 2,
+        "img": null,
+        "status": null
+    },
+    "usuario": {
+        "id": 4,
+        "status": "ATIVO",
+        "tipo_Usuario": {
+            "id": 1,
+            "descricao": "ADMIN",
+            "dias_emprestimo": 0,
+            "multa_diaria": 0.0
+        },
+        "authorities": [
+            {
+                "authority": "ROLE_ADMIN"
+            }
+        ]
+    }
+}
