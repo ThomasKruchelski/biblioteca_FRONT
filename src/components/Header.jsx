@@ -30,7 +30,7 @@ export default function Header() {
                 const validado = userInfo.authorities.some((authority) => authority == "ROLE_ADMIN")
                 console.log(validado)
                 console.log('validado')
-                if (validado) {
+                if(validado){
 
                 } else {
                     router.push('/login');
