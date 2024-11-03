@@ -45,7 +45,7 @@ export default function gestaoUsuarios() {
                     method: 'GET',
                     // mode: 'no-cors',
                     headers: {
-                        'Content-Type': 'aplication/json',
+                        'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
                 });
@@ -107,7 +107,18 @@ export default function gestaoUsuarios() {
 
             {/* <!-- Seção de Notícias --> */}
             <section className="container bg-purple-50 mx-auto mt-8 px-4 flex flex-col flex-1 h-[100vh]">
-                <h2 className="text-3xl font-semibold mb-6 mt-6 text-purple-700 text-center">Usuários</h2>
+                <div className="flex gap-4 justify-center">
+
+                    <h2 className="text-3xl font-semibold mb-6 mt-6 text-purple-700 text-center">Usuários</h2>
+                    <div className="flex justify-center items-center">
+                        <a href="/gestao/criar/usuario" className="flex p-1 border-2 border-solid border-[#669966] rounded-full justify-center items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="#669966" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                            </svg>
+
+                        </a>
+                    </div>
+                </div>
 
 
                 {loaded ?

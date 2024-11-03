@@ -45,7 +45,7 @@ export default function gestaoautores() {
                     method: 'GET',
                     // mode: 'no-cors',
                     headers: {
-                        'Content-Type': 'aplication/json',
+                        'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
                 });

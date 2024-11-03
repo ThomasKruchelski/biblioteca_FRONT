@@ -58,3 +58,17 @@ export function clearExpiredToken() {
 
     }
 }
+
+export function clearToken() {
+
+    try {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('tokenExpiration');
+        console.log('Token foi removido.');
+
+    } catch (error) {
+        console.error('Token não encontrado: ' + error)
+    }
+
+
+}

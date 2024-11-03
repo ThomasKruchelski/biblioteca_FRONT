@@ -37,7 +37,7 @@ export default function perfil({ params }) {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/autores/nome/${queryNome}`, {
                     method: 'GET',
                     headers: {
-                        'Content-Type': 'aplication/json',
+                        'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
                 });
@@ -88,7 +88,7 @@ export default function perfil({ params }) {
             const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/autors/email/${queryEmail}`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'aplication/json',
+                    'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(autor)

@@ -2,22 +2,24 @@
 
 import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
+import { clearToken } from '@/utils/verificaToken'
 
-export default function perfil({params}) {
+export default function perfil({ params }) {
 
     const queryParams = useParams();
     const queryEmail = decodeURIComponent(queryParams.email)
     console.log(queryEmail)
-    
+
+
 
     return (
         <main class="bg-gray-100">
 
-           {/* <!-- Container Principal -->*/}
+            {/* <!-- Container Principal -->*/}
             <div class="max-w-4xl mx-auto my-10 bg-white p-6 rounded-lg shadow-md">
                 {/* <!-- Informações do Perfil --> */}
                 <div class="flex items-center mb-6">
-                    <img src="https://via.placeholder.com/100" alt="User Avatar" class="rounded-full w-24 h-24 mr-4"/>
+                    <img src="https://via.placeholder.com/100" alt="User Avatar" class="rounded-full w-24 h-24 mr-4" />
                     <div>
                         <h2 class="text-2xl font-semibold text-black">{queryEmail}</h2>
                         <p class="text-gray-600"></p>
@@ -78,6 +80,10 @@ export default function perfil({params}) {
                 {/* <!-- Botão Voltar para Home --> */}
                 <div class="mt-8 text-center">
                     <a href=".." class="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-600">Tela inicial</a>
+                </div>
+                <div class="my-8 flex justify-center">
+
+                    <div onClick={() => clearToken()} className='w-fit px-4 py-2 rounded bg-[#cc2222] text-white cursor-pointer'>sair</div>
                 </div>
             </div>
 

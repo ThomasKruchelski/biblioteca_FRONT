@@ -34,7 +34,7 @@ export default function Home() {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/livros`, {
           method: 'GET',
           headers: {
-            'Content-Type': 'aplication/json',
+            'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           },
         });
