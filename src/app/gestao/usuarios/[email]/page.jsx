@@ -110,6 +110,8 @@ export default function perfil({ params }) {
             }
 
             const data = await response.json();
+            console.log(data)
+            console.log('data')
             toast.success(`Usuário alterado com sucesso`, {
                 position: "top-right",
                 autoClose: 5000,
@@ -169,7 +171,7 @@ export default function perfil({ params }) {
                                     onChange={handleInputChangeTipoUsuario}
                                 ></input>
                             </label>
-                            <label className='flex flex-col'>
+                            {/* <label className='flex flex-col'>
                                 <p className='ml-2'>
                                     Dias de emprestimos dos Livros
                                 </p>
@@ -190,7 +192,7 @@ export default function perfil({ params }) {
                                     name='multa_diaria'
                                     onChange={handleInputChangeTipoUsuario}
                                 ></input>
-                            </label>
+                            </label> */}
                         </div>
                         <div className='flex justify-around items-center'>
                             <a href='./'>
