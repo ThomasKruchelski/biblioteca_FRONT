@@ -12,49 +12,57 @@ export default function perfil({ params }) {
 
     const router = useRouter();
 
-    const [autor, setAutor] = useState({})
+    const [autor, setautor] = useState({
+        nome: "",
+        endereco:""
+    })
     const [loaded, setLoaded] = useState(false)
     const [token, setToken] = useState({})
 
     const queryParams = useParams();
-    const queryNome = decodeURIComponent(queryParams.nome)
-    console.log(queryNome)
+    const queryEmail = decodeURIComponent(queryParams.email)
+    console.log(queryEmail)
+
+    useEffect(() => {
+        console.log(JSON.stringify(autor))
+    }, [autor])
 
     useEffect(() => {
         if (isTokenValid()) {
             // console.log(isTokenValid(false))
             // console.log('isTokenValid()')
             setToken(isTokenValid(false))
+            setLoaded(true)
         } else {
             clearExpiredToken()
             router.push('/login');
         }
     }, [])
 
-    useEffect(() => {
-        const fetchautor = async () => {
-            try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/autores/nome/${queryNome}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                });
+    // useEffect(() => {
+    //     const fetchautor = async () => {
+    //         try {
+    //             const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/autors/email/${queryEmail}`, {
+    //                 method: 'GET',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     'Authorization': `Bearer ${token}`
+    //                 },
+    //             });
 
-                if (!response.ok) {
-                    throw new Error('Erro ao buscar usuários');
-                }
+    //             if (!response.ok) {
+    //                 throw new Error('Erro ao buscar usuários');
+    //             }
 
-                const data = await response.json();
-                setAutor(data);
-                setLoaded(true)
-            } catch (error) {
-                console.error('Erro:', error);
-            }
-        };
-        fetchautor()
-    }, [token])
+    //             const data = await response.json();
+    //             setautor(data);
+    //             setLoaded(true)
+    //         } catch (error) {
+    //             console.error('Erro:', error);
+    //         }
+    //     };
+    //     fetchautor()
+    // }, [token])
 
     useEffect(() => {
         console.log(autor)
@@ -64,7 +72,7 @@ export default function perfil({ params }) {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
-        setAutor((prevState) => ({
+        setautor((prevState) => ({
             ...prevState,
             [name]: value
         }));
@@ -73,7 +81,7 @@ export default function perfil({ params }) {
     const handleInputChangeTipoautor = (e) => {
         const { name, value } = e.target;
 
-        setAutor((prevState) => ({
+        setautor((prevState) => ({
             ...prevState,
             tipoautor: {
                 ...prevState.tipoautor,
@@ -83,10 +91,10 @@ export default function perfil({ params }) {
     };
 
 
-    const fetchAlteraAutor = async () => {
+    const fetchAlteraautor = async () => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/autores/nome/${queryNome}`, {
-                method: 'PUT',
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/autores`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -95,7 +103,7 @@ export default function perfil({ params }) {
             });
 
             if (!response.ok) {
-                toast.error(`Erro ao alterar usuário`, {
+                toast.error(`Erro ao criar usuário`, {
                     position: "top-right",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -106,10 +114,12 @@ export default function perfil({ params }) {
                     theme: "colored",
 
                 });
-                throw new Error('Erro ao alterar usuário');
+                throw new Error('Erro ao criar usuário');
             }
 
             const data = await response.json();
+            console.log(data)
+            console.log('data')
             toast.success(`Usuário alterado com sucesso`, {
                 position: "top-right",
                 autoClose: 5000,
@@ -121,10 +131,12 @@ export default function perfil({ params }) {
                 theme: "colored",
 
             });
+            router.push('/gestao/autores');
         } catch (error) {
             console.error('Erro:', error);
         }
     };
+
 
     return (
         <main className=" bg-gray-100 text-gray-900 flex flex-col min-h-[100vh]">
@@ -132,8 +144,9 @@ export default function perfil({ params }) {
             <section className="container bg-purple-50 mx-auto mt-8 px-4 flex flex-col flex-1 h-[100vh]">
                 {loaded &&
                     <div className='flex flex-col'>
-                        <h2 className="text-3xl font-semibold mb-6 mt-6 text-purple-700 text-center">Editando {autor.nome}</h2>
+                        <h2 className="text-3xl font-semibold mb-6 mt-6 text-purple-700 text-center">Criando {autor.nome}</h2>
                         <div className='flex flex-col mb-4'>
+
                             <label className='flex flex-col'>
                                 <p className='ml-2'>
                                     Nome do autor
@@ -156,20 +169,18 @@ export default function perfil({ params }) {
                                     onChange={handleInputChange}
                                 ></input>
                             </label>
+
                         </div>
                         <div className='flex justify-around items-center'>
                             <a href='./'>
                                 <div className='px-4 py-2 rounded bg-[#cc2222] text-white cursor-pointer'>Cancelar</div>
                             </a>
-                            <div onClick={() => fetchAlteraAutor()} className='px-4 py-2 rounded bg-[#669966] text-white cursor-pointer'>Salvar</div>
+                            <div onClick={() => fetchAlteraautor()} className='px-4 py-2 rounded bg-[#669966] text-white cursor-pointer'>Salvar</div>
                         </div>
                         <ToastContainer />
                     </div>
                 }
-
             </section>
         </main>
     )
-
-    
 }

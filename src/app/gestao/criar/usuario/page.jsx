@@ -123,6 +123,8 @@ export default function perfil({ params }) {
             }
 
             const data = await response.json();
+            console.log(data)
+            console.log('data')
             toast.success(`Usuário alterado com sucesso`, {
                 position: "top-right",
                 autoClose: 5000,
@@ -134,6 +136,7 @@ export default function perfil({ params }) {
                 theme: "colored",
 
             });
+            router.push('/gestao/usuarios');
         } catch (error) {
             console.error('Erro:', error);
         }
@@ -146,7 +149,7 @@ export default function perfil({ params }) {
             <section className="container bg-purple-50 mx-auto mt-8 px-4 flex flex-col flex-1 h-[100vh]">
                 {loaded &&
                     <div className='flex flex-col'>
-                        <h2 className="text-3xl font-semibold mb-6 mt-6 text-purple-700 text-center">Editando {usuario.nome}</h2>
+                        <h2 className="text-3xl font-semibold mb-6 mt-6 text-purple-700 text-center">Criando {usuario.nome}</h2>
                         <div className='flex flex-col mb-4'>
 
                             <label className='flex flex-col'>
