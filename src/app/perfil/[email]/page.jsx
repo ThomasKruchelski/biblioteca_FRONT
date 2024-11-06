@@ -3,14 +3,20 @@
 import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { clearToken } from '@/utils/verificaToken'
+import { useRouter } from 'next/navigation';
 
 export default function perfil({ params }) {
+
+    const router = useRouter()
 
     const queryParams = useParams();
     const queryEmail = decodeURIComponent(queryParams.email)
     console.log(queryEmail)
 
-
+    function logoff(){
+        clearToken()
+        router.push('/login')
+    }
 
     return (
         <main class="bg-gray-100">
@@ -83,7 +89,7 @@ export default function perfil({ params }) {
                 </div>
                 <div class="my-8 flex justify-center">
 
-                    <div onClick={() => clearToken()} className='w-fit px-4 py-2 rounded bg-[#cc2222] text-white cursor-pointer'>sair</div>
+                    <div onClick={() => logoff()} className='w-fit px-4 py-2 rounded bg-[#cc2222] text-white cursor-pointer'>sair</div>
                 </div>
             </div>
 
