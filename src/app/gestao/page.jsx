@@ -102,7 +102,7 @@ export default function gestaoUsuarios() {
                                 </svg>
 
 
-                                <p className="text-2xl font-semibold text-purple-600 ml-2">Gerenciar Generos</p>
+                                <p className="text-2xl font-semibold text-purple-600 ml-2">Gerenciar Areas</p>
                             </div>
                             <div className="flex">
                                 <a href="/gestao/areas">

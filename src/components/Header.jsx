@@ -87,7 +87,7 @@ export default function Header() {
                     <ul className="flex space-x-6">
                         <li><a href=".." className="text-white hover:underline">Início</a></li>
                         <li><a href="#" className="text-white hover:underline">Catálogo</a></li>
-                        <li><a href="/perfil" className="text-white hover:underline">Perfil</a></li>
+                        <li><a href="/login" className="text-white hover:underline">Entrar</a></li>
                     </ul>
                 </div>
             </nav>
