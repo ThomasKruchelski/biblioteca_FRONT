@@ -8,53 +8,76 @@ import Header from '@/components/Header';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export default function perfil({ params }) {
+export default function livro({ params }) {
 
     const router = useRouter();
 
-    const [livro, setlivro] = useState({})
+    const [livro, setlivro] = useState({
+        titulo: "",
+        edicao: 1,
+        resumo: "",
+        ano_publicacao: 2024,
+        editora: {
+            nome: ""
+        },
+        area: {
+            descricao: ""
+        },
+        autores: [
+
+        ],
+        codigo: "",
+        quantidade: 0,
+        quantidadeDisponivel: 0,
+        img: ""
+    })
     const [loaded, setLoaded] = useState(false)
     const [token, setToken] = useState({})
 
     const queryParams = useParams();
-    const querytitulo = decodeURIComponent(queryParams.titulo)
-    console.log(querytitulo)
+    const queryEmail = decodeURIComponent(queryParams.email)
+    console.log(queryEmail)
+
+    useEffect(() => {
+        console.log(JSON.stringify(livro))
+    }, [livro])
 
     useEffect(() => {
         if (isTokenValid()) {
             // console.log(isTokenValid(false))
             // console.log('isTokenValid()')
             setToken(isTokenValid(false))
+            setLoaded(true)
         } else {
             clearExpiredToken()
             router.push('/login');
         }
     }, [])
 
-    useEffect(() => {
-        const fetchlivro = async () => {
-            try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/livros/titulo/${querytitulo}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                });
+    // useEffect(() => {
+    //     const fetchlivro = async () => {
+    //         try {
+    //             const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/livros/email/${queryEmail}`, {
+    //                 method: 'GET',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     'Authorization': `Bearer ${token}`
+    //                 },
+    //             });
 
-                if (!response.ok) {
-                    throw new Error('Erro ao buscar usuários');
-                }
+    //             if (!response.ok) {
+    //                 throw new Error('Erro ao buscar livros');
+    //             }
 
-                const data = await response.json();
-                setlivro(data);
-                setLoaded(true)
-            } catch (error) {
-                console.error('Erro:', error);
-            }
-        };
-        fetchlivro()
-    }, [token])
+    //             const data = await response.json();
+    //             setlivro(data);
+    //             setLoaded(true)
+    //         } catch (error) {
+    //             console.error('Erro:', error);
+    //         }
+    //     };
+    //     fetchlivro()
+    // }, [token])
 
     useEffect(() => {
         console.log(livro)
@@ -119,10 +142,11 @@ export default function perfil({ params }) {
         }));
     };
 
+
     const fetchAlteralivro = async () => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/livros/titulo/${querytitulo}`, {
-                method: 'PUT',
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/livros`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -131,7 +155,7 @@ export default function perfil({ params }) {
             });
 
             if (!response.ok) {
-                toast.error(`Erro ao alterar usuário`, {
+                toast.error(`Erro ao criar livro`, {
                     position: "top-right",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -142,11 +166,13 @@ export default function perfil({ params }) {
                     theme: "colored",
 
                 });
-                throw new Error('Erro ao alterar usuário');
+                throw new Error('Erro ao criar livro');
             }
 
             const data = await response.json();
-            toast.success(`Usuário alterado com sucesso`, {
+            console.log(data)
+            console.log('data')
+            toast.success(`livro alterada com sucesso`, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -157,10 +183,12 @@ export default function perfil({ params }) {
                 theme: "colored",
 
             });
+            router.push('/gestao/livros');
         } catch (error) {
             console.error('Erro:', error);
         }
     };
+
 
     return (
         <main className=" bg-gray-100 text-gray-900 flex flex-col min-h-[100vh]">
@@ -168,8 +196,9 @@ export default function perfil({ params }) {
             <section className="container bg-purple-50 mx-auto mt-8 px-4 flex flex-col flex-1 h-[100vh]">
                 {loaded &&
                     <div className='flex flex-col'>
-                        <h2 className="text-3xl font-semibold mb-6 mt-6 text-purple-700 text-center">Editando {livro.titulo}</h2>
+                        <h2 className="text-3xl font-semibold mb-6 mt-6 text-purple-700 text-center">Criando {livro.nome}</h2>
                         <div className='flex flex-col mb-4'>
+
                             <label className='flex flex-col'>
                                 <p className='ml-2'>
                                     titulo da livro
@@ -289,10 +318,10 @@ export default function perfil({ params }) {
                                 </p>
                                 <input
                                     className='mb-2 px-2 py-1 border shadow-inner rounded-full'
-                                    value={livro.quantidadeDisponivel}
+                                    value={livro.quantidade}
                                     name='quantidadeDisponivel'
-                                    onChange={handleInputChange}
-                                // disabled
+                                    // onChange={handleInputChange}
+                                    disabled
                                 ></input>
                             </label>
                             <label className='flex flex-col'>
@@ -316,10 +345,7 @@ export default function perfil({ params }) {
                         <ToastContainer />
                     </div>
                 }
-
             </section>
         </main>
     )
-
-
 }
