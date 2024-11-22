@@ -12,13 +12,28 @@ export default function perfil({ params }) {
 
     const router = useRouter();
 
-    const [editora, seteditora] = useState({})
+    const [emprestimo, setemprestimo] = useState({})
     const [loaded, setLoaded] = useState(false)
     const [token, setToken] = useState({})
 
     const queryParams = useParams();
-    const querynome = decodeURIComponent(queryParams.nome)
-    console.log(querynome)
+    const queryid = decodeURIComponent(queryParams.id)
+    console.log(queryid)
+
+    const formatDate = (isoDate) => {
+        // Converte a string em um objeto Date
+        const date = new Date(isoDate);
+
+        // Extrai os componentes
+        const day = date.getDate().toString().padStart(2, '0'); // Dia com dois dígitos
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Mês com dois dígitos (0 = janeiro)
+        const year = date.getFullYear(); // Ano
+        const hours = date.getHours().toString().padStart(2, '0'); // Hora com dois dígitos
+        const minutes = date.getMinutes().toString().padStart(2, '0'); // Minutos com dois dígitos
+
+        // Formata a string no formato desejado
+        return `${day}/${month}/${year} ${hours}:${minutes}`;
+    };
 
     useEffect(() => {
         if (isTokenValid()) {
@@ -32,9 +47,9 @@ export default function perfil({ params }) {
     }, [])
 
     useEffect(() => {
-        const fetcheditora = async () => {
+        const fetchemprestimo = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/editoras/nome/${querynome}`, {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/emprestimos/id/${queryid}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -47,51 +62,51 @@ export default function perfil({ params }) {
                 }
 
                 const data = await response.json();
-                seteditora(data);
+                setemprestimo(data);
                 setLoaded(true)
             } catch (error) {
                 console.error('Erro:', error);
             }
         };
-        fetcheditora()
+        fetchemprestimo()
     }, [token])
 
     useEffect(() => {
-        console.log(editora)
-        console.log('editora')
-    }, [editora])
+        console.log(emprestimo)
+        console.log('emprestimo')
+    }, [emprestimo])
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
-        seteditora((prevState) => ({
+        setemprestimo((prevState) => ({
             ...prevState,
             [name]: value
         }));
     };
 
-    const handleInputChangeTipoeditora = (e) => {
+    const handleInputChangeTipoemprestimo = (e) => {
         const { name, value } = e.target;
 
-        seteditora((prevState) => ({
+        setemprestimo((prevState) => ({
             ...prevState,
-            tipoeditora: {
-                ...prevState.tipoeditora,
+            tipoemprestimo: {
+                ...prevState.tipoemprestimo,
                 [name]: value
             }
         }));
     };
 
 
-    const fetchAlteraeditora = async () => {
+    const fetchAlteraemprestimo = async () => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/editoras/nome/${querynome}`, {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/emprestimos/id/${queryid}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(editora)
+                body: JSON.stringify(emprestimo)
             });
 
             if (!response.ok) {
@@ -132,36 +147,35 @@ export default function perfil({ params }) {
             <section className="container bg-purple-50 mx-auto mt-8 px-4 flex flex-col flex-1 h-[100vh]">
                 {loaded &&
                     <div className='flex flex-col'>
-                        <h2 className="text-3xl font-semibold mb-6 mt-6 text-purple-700 text-center">Editando {editora.nome}</h2>
+                        <h2 className="text-3xl font-semibold mb-6 mt-6 text-purple-700 text-center">Emprestimo Id {emprestimo.id}</h2>
                         <div className='flex flex-col mb-4'>
-                            <label className='flex flex-col'>
-                                <p className='ml-2'>
-                                    nome da editora
-                                </p>
-                                <input
-                                    className='mb-2 px-2 py-1 border shadow-inner rounded-full'
-                                    value={editora.nome}
-                                    name='nome'
-                                    onChange={handleInputChange}
-                                ></input>
-                            </label>
-                            <label className='flex flex-col'>
-                                <p className='ml-2'>
-                                    endereço da editora
-                                </p>
-                                <input
-                                    className='mb-2 px-2 py-1 border shadow-inner rounded-full'
-                                    value={editora.endereco}
-                                    name='endereco'
-                                    onChange={handleInputChange}
-                                ></input>
-                            </label>
+                            <div className='flex gap-2'>
+                                <h2 class="text-lg font-semibold text-black">Titulo do Livro:</h2>
+                                <h2 class="text-lg font-semibold text-gray-500">{emprestimo.livro.titulo}</h2>
+                            </div>
+                            <div className='flex gap-2'>
+                                <h2 class="text-lg font-semibold text-black">Data emprestimo</h2>
+                                <h2 class="text-lg font-semibold text-gray-500">{formatDate(emprestimo.data_emprestimo)}</h2>
+                            </div>
+                            <div className='flex gap-2'>
+                                <h2 class="text-lg font-semibold text-black">Data previsão</h2>
+                                <h2 class="text-lg font-semibold text-gray-500">{formatDate(emprestimo.data_previsao)}</h2>
+                            </div>
+                            <div className='flex gap-2'>
+                                <h2 class="text-lg font-semibold text-black">Data Entrega</h2>
+                                <h2 class="text-lg font-semibold text-gray-500">
+                                    {emprestimo.data_entrega ?
+                                     formatDate(emprestimo.data_entrega)
+                                    :
+                                    'Não entregue'
+                                    }</h2>
+                            </div>
                         </div>
                         <div className='flex justify-around items-center'>
                             <a href='./'>
                                 <div className='px-4 py-2 rounded bg-[#cc2222] text-white cursor-pointer'>Cancelar</div>
                             </a>
-                            <div onClick={() => fetchAlteraeditora()} className='px-4 py-2 rounded bg-[#669966] text-white cursor-pointer'>Salvar</div>
+                            <div onClick={() => fetchAlteraemprestimo()} className='px-4 py-2 rounded bg-[#669966] text-white cursor-pointer'>Salvar</div>
                         </div>
                         <ToastContainer />
                     </div>
@@ -171,5 +185,5 @@ export default function perfil({ params }) {
         </main>
     )
 
-    
+
 }

@@ -255,7 +255,7 @@ export default function Home() {
                     <h2 class="text-xl font-semibold mb-2 text-[#000]">{livro.titulo}</h2>
                     {/* <h2 class="text-xl font-semibold mb-2 text-[#000]">{livro.}</h2> */}
                     <p class="text-gray-600 mb-4">{livro.resumo}</p>
-                    <button class="bg-purple-600 text-white px-4 py-2 rounded-lg">Leia mais</button>
+                    <a href={'/livro/' + livro.titulo} class="bg-purple-600 text-white px-4 py-2 rounded-lg">Leia mais</a>
                   </div>
                 </div>
               ))}
