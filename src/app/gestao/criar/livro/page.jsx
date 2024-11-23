@@ -93,6 +93,16 @@ export default function livro({ params }) {
         }));
     };
 
+    const handleQuantChange = (e) => {
+        const { name, value } = e.target;
+
+        setlivro((prevState) => ({
+            ...prevState,
+            quantidadeDisponivel: value,
+            quantidade: value
+        }));
+    };
+
     const handleInputChangeEditora = (e) => {
         const { name, value } = e.target;
 
@@ -309,7 +319,7 @@ export default function livro({ params }) {
                                     className='mb-2 px-2 py-1 border shadow-inner rounded-full'
                                     value={livro.quantidade}
                                     name='quantidade'
-                                    onChange={handleInputChange}
+                                    onChange={handleQuantChange}
                                 ></input>
                             </label>
                             <label className='flex flex-col'>
