@@ -97,6 +97,14 @@ export default function perfil({ params }) {
         }));
     };
 
+    function getCurrentDate() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0'); // Adiciona zero à esquerda se necessário
+        const day = String(now.getDate()).padStart(2, '0'); // Adiciona zero à esquerda se necessário
+
+        return `${year}-${month}-${day}`;
+    }
 
     const fetchAlteraemprestimo = async () => {
         try {
@@ -107,6 +115,96 @@ export default function perfil({ params }) {
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(emprestimo)
+            });
+
+            if (!response.ok) {
+                toast.error(`Erro ao alterar usuário`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+
+                });
+                throw new Error('Erro ao alterar usuário');
+            }
+
+            const data = await response.json();
+            toast.success(`Usuário alterado com sucesso`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+
+            });
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    };
+
+    const fetchDevolucao = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/emprestimos/devolucao/${queryid}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    data_entrega: getCurrentDate()
+                })
+            });
+
+            if (!response.ok) {
+                toast.error(`Erro ao alterar usuário`, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+
+                });
+                throw new Error('Erro ao alterar usuário');
+            }
+
+            const data = await response.json();
+            toast.success(`Usuário alterado com sucesso`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+
+            });
+        } catch (error) {
+            console.error('Erro:', error);
+        }
+    };
+
+    const fetchPagamento = async () => {
+        try {
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/emprestimos/pagamento/${queryid}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    data_pagamento: getCurrentDate()
+                })
             });
 
             if (!response.ok) {
@@ -165,24 +263,64 @@ export default function perfil({ params }) {
                                 <h2 class="text-lg font-semibold text-black">Data Entrega</h2>
                                 <h2 class="text-lg font-semibold text-gray-500">
                                     {emprestimo.data_entrega ?
-                                     formatDate(emprestimo.data_entrega)
-                                    :
-                                    'Não entregue'
+                                        formatDate(emprestimo.data_entrega)
+                                        :
+                                        'Não entregue'
                                     }</h2>
                             </div>
+                            {emprestimo.data_entrega &&
+                                <div className='flex flex-col pt-4'>
+                                    <div className='flex gap-2'>
+                                        <h2 class="text-lg font-semibold text-black">Multa de atraso:</h2>
+                                        <h2 class="text-lg font-semibold text-gray-500">R$ {emprestimo.multa}</h2>
+                                    </div>
+                                    {emprestimo.pagamento === 'PAGO' &&
+                                        <div className='flex gap-2'>
+                                            <h2 class="text-lg font-semibold text-black">Data de pagamento:</h2>
+                                            <h2 class="text-lg font-semibold text-gray-500">{formatDate(emprestimo.data_pagamento)}</h2>
+                                        </div>
+                                    }
+                                    <div className=' flex gap-2'>
+                                        <h2 class="text-lg font-semibold text-black">Status pagamento:</h2>
+                                        {emprestimo.pagamento == 'N_PAGO' ?
+                                            <h2 class="text-lg font-semibold text-red-500">Não pago</h2>
+                                            :
+                                            <h2 class="text-lg font-semibold text-green-500">Pago</h2>
+                                        }
+
+
+                                    </div>
+                                </div>
+                            }
+                            {emprestimo.pagamento === 'PAGO' &&
+                                    <div className='flex gap-2 pt-4'>
+                                        <h2 class="text-lg font-semibold text-green-500">Emprestimo Concluído</h2>
+                                        
+                                    </div>
+                            }
                         </div>
                         <div className='flex justify-around items-center'>
                             <a href='./'>
-                                <div className='px-4 py-2 rounded bg-[#cc2222] text-white cursor-pointer'>Cancelar</div>
+                                <div className='px-4 py-2 rounded bg-[#cc2222] text-white cursor-pointer'>Voltar</div>
                             </a>
-                            <div onClick={() => fetchAlteraemprestimo()} className='px-4 py-2 rounded bg-[#669966] text-white cursor-pointer'>Salvar</div>
+                            {/* <div onClick={() => fetchAlteraemprestimo()} className='px-4 py-2 rounded bg-[#669966] text-white cursor-pointer'>Salvar</div> */}
+                            {!emprestimo.data_entrega &&
+                                <div onClick={() => fetchDevolucao()} className='px-4 py-2 rounded bg-[#0000ee] text-white cursor-pointer'>Marcar como Entregue</div>
+                            }
+                            {emprestimo.data_entrega &&
+                                <div>
+                                    {emprestimo.pagamento === 'N_PAGO' &&
+                                        <div onClick={() => fetchPagamento()} className='px-4 py-2 rounded bg-[#669966] text-white cursor-pointer'>Marcar como Pago</div>
+                                    }
+                                </div>
+                            }
                         </div>
                         <ToastContainer />
                     </div>
                 }
 
             </section>
-        </main>
+        </main >
     )
 
 
