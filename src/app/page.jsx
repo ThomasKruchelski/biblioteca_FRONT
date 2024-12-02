@@ -250,8 +250,10 @@ export default function Home() {
 
               {livros.map((livro) => (
                 <div class="bg-white p-6 rounded-lg shadow-md flex">
-                  <img src="https://via.placeholder.com/100x150" alt="Lorem ipsum" class="mb-4" />
-                  <div className="pl-4">
+
+                  <img src={livro.img ? livro.img : "https://via.placeholder.com/1000x1500"} alt="Lorem ipsum" className="w-[40%] h-fit" />
+
+                  <div className="pl-5 w-[60%]">
                     <h2 class="text-xl font-semibold mb-2 text-[#000]">{livro.titulo}</h2>
                     {/* <h2 class="text-xl font-semibold mb-2 text-[#000]">{livro.}</h2> */}
                     <p class="text-gray-600 mb-4">{livro.resumo}</p>

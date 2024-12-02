@@ -68,8 +68,8 @@ export default function perfil() {
             {loaded &&
                 <div class="max-w-4xl mx-auto my-10 bg-white p-6 rounded-lg shadow-md">
 
-                    <div class="flex items-center mb-6">
-                        {/* <img src="https://via.placeholder.com/100" alt="User Avatar" class="rounded-full w-24 h-24 mr-4" /> */}
+                    <div class="flex mb-6">
+                    <img src={livro.img ? livro.img : "https://via.placeholder.com/1000x1500"} alt="Lorem ipsum" className="w-[40%] h-fit min-w-[40%] mr-6" />
                         <div>
                             <h2 class="text-2xl font-semibold text-black">{livro.titulo}</h2>
                             <div className='flex gap-2'>
@@ -95,8 +95,9 @@ export default function perfil() {
                                 <p class="text-base font-semibold text-gray-500">{livro.resumo}</p>
                             </div>
 
-                            <p class="text-gray-600"></p>
-                            <p class="text-gray-600"></p>
+                            <div className='flex mt-6'>
+                                <div className='px-4 py-2 rounded bg-[#4444cc] text-white'>Vá até uma sede para retirar seu exemplar</div>
+                            </div>
                         </div>
                     </div>
                 </div>
