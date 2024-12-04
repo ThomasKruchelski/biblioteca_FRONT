@@ -12,7 +12,10 @@ export default function perfil({ params }) {
 
     const router = useRouter();
 
-    const [usuario, setUsuario] = useState({})
+    const [autor, setautor] = useState({
+        nome: "",
+        endereco:""
+    })
     const [loaded, setLoaded] = useState(false)
     const [token, setToken] = useState({})
 
@@ -21,81 +24,86 @@ export default function perfil({ params }) {
     console.log(queryEmail)
 
     useEffect(() => {
+        console.log(JSON.stringify(autor))
+    }, [autor])
+
+    useEffect(() => {
         if (isTokenValid()) {
             // console.log(isTokenValid(false))
             // console.log('isTokenValid()')
             setToken(isTokenValid(false))
+            setLoaded(true)
         } else {
             clearExpiredToken()
             router.push('/login');
         }
     }, [])
 
+    // useEffect(() => {
+    //     const fetchautor = async () => {
+    //         try {
+    //             const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/autors/email/${queryEmail}`, {
+    //                 method: 'GET',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     'Authorization': `Bearer ${token}`
+    //                 },
+    //             });
+
+    //             if (!response.ok) {
+    //                 throw new Error('Erro ao buscar usuários');
+    //             }
+
+    //             const data = await response.json();
+    //             setautor(data);
+    //             setLoaded(true)
+    //         } catch (error) {
+    //             console.error('Erro:', error);
+    //         }
+    //     };
+    //     fetchautor()
+    // }, [token])
+
     useEffect(() => {
-        const fetchUsuario = async () => {
-            try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/usuarios/email/${queryEmail}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                });
-
-                if (!response.ok) {
-                    throw new Error('Erro ao buscar usuários');
-                }
-
-                const data = await response.json();
-                setUsuario(data);
-                setLoaded(true)
-            } catch (error) {
-                console.error('Erro:', error);
-            }
-        };
-        fetchUsuario()
-    }, [token])
-
-    useEffect(() => {
-        console.log(usuario)
-        console.log('usuario')
-    }, [usuario])
+        console.log(autor)
+        console.log('autor')
+    }, [autor])
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
-        setUsuario((prevState) => ({
+        setautor((prevState) => ({
             ...prevState,
             [name]: value
         }));
     };
 
-    const handleInputChangeTipoUsuario = (e) => {
+    const handleInputChangeTipoautor = (e) => {
         const { name, value } = e.target;
 
-        setUsuario((prevState) => ({
+        setautor((prevState) => ({
             ...prevState,
-            tipoUsuario: {
-                ...prevState.tipoUsuario,
+            tipoautor: {
+                ...prevState.tipoautor,
                 [name]: value
             }
         }));
     };
 
 
-    const fetchAlteraUsuario = async () => {
+    const fetchAlteraautor = async () => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/usuarios/email/${queryEmail}`, {
-                method: 'PUT',
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/autores`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(usuario)
+                body: JSON.stringify(autor)
             });
 
             if (!response.ok) {
-                toast.error(`Erro ao alterar usuário`, {
+                toast.error(`Erro ao criar usuário`, {
                     position: "top-right",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -106,7 +114,7 @@ export default function perfil({ params }) {
                     theme: "colored",
 
                 });
-                throw new Error('Erro ao alterar usuário');
+                throw new Error('Erro ao criar usuário');
             }
 
             const data = await response.json();
@@ -123,6 +131,7 @@ export default function perfil({ params }) {
                 theme: "colored",
 
             });
+            router.push('/gestao/autores');
         } catch (error) {
             console.error('Erro:', error);
         }
@@ -135,70 +144,38 @@ export default function perfil({ params }) {
             <section className="container bg-purple-50 mx-auto mt-8 px-4 flex flex-col flex-1 h-[100vh]">
                 {loaded &&
                     <div className='flex flex-col'>
-                        <h2 className="text-3xl font-semibold mb-6 mt-6 text-purple-700 text-center">Editando {usuario.nome}</h2>
+                        <h2 className="text-3xl font-semibold mb-6 mt-6 text-purple-700 text-center">Criando {autor.nome}</h2>
                         <div className='flex flex-col mb-4'>
 
                             <label className='flex flex-col'>
                                 <p className='ml-2'>
-                                    Nome
+                                    Nome do autor
                                 </p>
                                 <input
                                     className='mb-2 px-2 py-1 border shadow-inner rounded-full'
-                                    value={usuario.nome}
+                                    value={autor.nome}
                                     name='nome'
                                     onChange={handleInputChange}
                                 ></input>
                             </label>
                             <label className='flex flex-col'>
                                 <p className='ml-2'>
-                                    Email
+                                    Endereco do Autor
                                 </p>
                                 <input
                                     className='mb-2 px-2 py-1 border shadow-inner rounded-full'
-                                    value={usuario.email}
-                                    name='email'
-                                    disabled
+                                    value={autor.endereco}
+                                    name='endereco'
+                                    onChange={handleInputChange}
                                 ></input>
                             </label>
-                            <label className='flex flex-col'>
-                                <p className='ml-2'>
-                                    Descrição
-                                </p>
-                                <input
-                                    className='mb-2 px-2 py-1 border shadow-inner rounded-full'
-                                    value={usuario.tipoUsuario.descricao}
-                                    name='descricao'
-                                    onChange={handleInputChangeTipoUsuario}
-                                ></input>
-                            </label>
-                            {/* <label className='flex flex-col'>
-                                <p className='ml-2'>
-                                    Dias de emprestimos dos Livros
-                                </p>
-                                <input
-                                    className='mb-2 px-2 py-1 border shadow-inner rounded-full'
-                                    value={usuario.tipoUsuario.dias_emprestimo}
-                                    name='dias_emprestimo'
-                                    onChange={handleInputChangeTipoUsuario}
-                                ></input>
-                            </label>
-                            <label className='flex flex-col'>
-                                <p className='ml-2'>
-                                    Dias de emprestimos dos Livros
-                                </p>
-                                <input
-                                    className='mb-2 px-2 py-1 border shadow-inner rounded-full'
-                                    value={usuario.tipoUsuario.multa_diaria}
-                                    name='multa_diaria'
-                                    onChange={handleInputChangeTipoUsuario}
-                                ></input>
-                            </label> */}
+
                         </div>
                         <div className='flex justify-around items-center'>
                             <a href='./'>
                                 <div className='px-4 py-2 rounded bg-[#cc2222] text-white cursor-pointer'>Cancelar</div>
                             </a>
-                            <div onClick={() => fetchAlteraUsuario()} className='px-4 py-2 rounded bg-[#669966] text-white cursor-pointer'>Salvar</div>
+                            <div onClick={() => fetchAlteraautor()} className='px-4 py-2 rounded bg-[#669966] text-white cursor-pointer'>Salvar</div>
                         </div>
                         <ToastContainer />
                     </div>

@@ -12,7 +12,15 @@ export default function perfil({ params }) {
 
     const router = useRouter();
 
-    const [usuario, setUsuario] = useState({})
+    const [usuario, setUsuario] = useState({
+        nome: "",
+        email: "",
+        senha: "",
+        status: "ATIVO",
+        tipoUsuario: {
+            descricao: "",
+        }
+    })
     const [loaded, setLoaded] = useState(false)
     const [token, setToken] = useState({})
 
@@ -20,41 +28,46 @@ export default function perfil({ params }) {
     const queryEmail = decodeURIComponent(queryParams.email)
     console.log(queryEmail)
 
+    useEffect(()=>{
+        console.log(JSON.stringify(usuario))
+    },[usuario])
+
     useEffect(() => {
         if (isTokenValid()) {
             // console.log(isTokenValid(false))
             // console.log('isTokenValid()')
             setToken(isTokenValid(false))
+            setLoaded(true)
         } else {
             clearExpiredToken()
             router.push('/login');
         }
     }, [])
 
-    useEffect(() => {
-        const fetchUsuario = async () => {
-            try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/usuarios/email/${queryEmail}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                });
+    // useEffect(() => {
+    //     const fetchUsuario = async () => {
+    //         try {
+    //             const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/usuarios/email/${queryEmail}`, {
+    //                 method: 'GET',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     'Authorization': `Bearer ${token}`
+    //                 },
+    //             });
 
-                if (!response.ok) {
-                    throw new Error('Erro ao buscar usuários');
-                }
+    //             if (!response.ok) {
+    //                 throw new Error('Erro ao buscar usuários');
+    //             }
 
-                const data = await response.json();
-                setUsuario(data);
-                setLoaded(true)
-            } catch (error) {
-                console.error('Erro:', error);
-            }
-        };
-        fetchUsuario()
-    }, [token])
+    //             const data = await response.json();
+    //             setUsuario(data);
+    //             setLoaded(true)
+    //         } catch (error) {
+    //             console.error('Erro:', error);
+    //         }
+    //     };
+    //     fetchUsuario()
+    // }, [token])
 
     useEffect(() => {
         console.log(usuario)
@@ -85,8 +98,8 @@ export default function perfil({ params }) {
 
     const fetchAlteraUsuario = async () => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/usuarios/email/${queryEmail}`, {
-                method: 'PUT',
+            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/usuarios`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
@@ -95,7 +108,7 @@ export default function perfil({ params }) {
             });
 
             if (!response.ok) {
-                toast.error(`Erro ao alterar usuário`, {
+                toast.error(`Erro ao criar usuário`, {
                     position: "top-right",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -106,7 +119,7 @@ export default function perfil({ params }) {
                     theme: "colored",
 
                 });
-                throw new Error('Erro ao alterar usuário');
+                throw new Error('Erro ao criar usuário');
             }
 
             const data = await response.json();
@@ -123,6 +136,7 @@ export default function perfil({ params }) {
                 theme: "colored",
 
             });
+            router.push('/gestao/usuarios');
         } catch (error) {
             console.error('Erro:', error);
         }
@@ -135,7 +149,7 @@ export default function perfil({ params }) {
             <section className="container bg-purple-50 mx-auto mt-8 px-4 flex flex-col flex-1 h-[100vh]">
                 {loaded &&
                     <div className='flex flex-col'>
-                        <h2 className="text-3xl font-semibold mb-6 mt-6 text-purple-700 text-center">Editando {usuario.nome}</h2>
+                        <h2 className="text-3xl font-semibold mb-6 mt-6 text-purple-700 text-center">Criando {usuario.nome}</h2>
                         <div className='flex flex-col mb-4'>
 
                             <label className='flex flex-col'>
@@ -157,7 +171,18 @@ export default function perfil({ params }) {
                                     className='mb-2 px-2 py-1 border shadow-inner rounded-full'
                                     value={usuario.email}
                                     name='email'
-                                    disabled
+                                    onChange={handleInputChange}
+                                ></input>
+                            </label>
+                            <label className='flex flex-col'>
+                                <p className='ml-2'>
+                                    Senha
+                                </p>
+                                <input
+                                    className='mb-2 px-2 py-1 border shadow-inner rounded-full'
+                                    value={usuario.senha}
+                                    name='senha'
+                                    onChange={handleInputChange}
                                 ></input>
                             </label>
                             <label className='flex flex-col'>
@@ -171,28 +196,7 @@ export default function perfil({ params }) {
                                     onChange={handleInputChangeTipoUsuario}
                                 ></input>
                             </label>
-                            {/* <label className='flex flex-col'>
-                                <p className='ml-2'>
-                                    Dias de emprestimos dos Livros
-                                </p>
-                                <input
-                                    className='mb-2 px-2 py-1 border shadow-inner rounded-full'
-                                    value={usuario.tipoUsuario.dias_emprestimo}
-                                    name='dias_emprestimo'
-                                    onChange={handleInputChangeTipoUsuario}
-                                ></input>
-                            </label>
-                            <label className='flex flex-col'>
-                                <p className='ml-2'>
-                                    Dias de emprestimos dos Livros
-                                </p>
-                                <input
-                                    className='mb-2 px-2 py-1 border shadow-inner rounded-full'
-                                    value={usuario.tipoUsuario.multa_diaria}
-                                    name='multa_diaria'
-                                    onChange={handleInputChangeTipoUsuario}
-                                ></input>
-                            </label> */}
+                            
                         </div>
                         <div className='flex justify-around items-center'>
                             <a href='./'>

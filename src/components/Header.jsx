@@ -4,6 +4,8 @@ import { isTokenValid, clearExpiredToken } from "@/utils/verificaToken";
 import { useEffect, useState } from "react";
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import logo from '../../public/logo.png'
 
 export default function Header() {
 
@@ -57,7 +59,9 @@ export default function Header() {
         loaded ?
             <nav className="bg-purple-700 p-4">
                 <div className="container mx-auto flex justify-between items-center">
-                    <a href=".." className="text-white text-2xl font-semibold">BEM VINDO </a>
+                    <a href=".." className="text-white text-2xl font-semibold">
+                        <Image src={logo} alt="Logo" width={140} height={70} />
+                    </a>
                     <ul className="flex space-x-6 justify-center items-center">
                         <li><a href=".." className="text-white hover:underline">Início</a></li>
                         <li><a href="#" className="text-white hover:underline">Catálogo</a></li>
@@ -67,7 +71,7 @@ export default function Header() {
                             </li>
                         }
                         <li className="flex items-center">
-                            <a href={'../perfil/' + userInfo.sub} className="text-white hover:underline pr-2">{userInfo.name}</a>
+                            <a href={'/perfil/' + userInfo.sub} className="text-white hover:underline pr-2">{userInfo.name}</a>
                             <img src="https://via.placeholder.com/40" alt="User avatar" className="rounded-full" />
                         </li>
 
@@ -77,11 +81,13 @@ export default function Header() {
             :
             <nav className="bg-purple-700 p-4">
                 <div className="container mx-auto flex justify-between items-center">
-                    <a href=".." className="text-white text-2xl font-semibold">Biblioteca Online</a>
+                    <a href=".." className="text-white text-2xl font-semibold">
+                        <Image src={logo} alt="Logo" width={140} height={70} />
+                    </a>
                     <ul className="flex space-x-6">
                         <li><a href=".." className="text-white hover:underline">Início</a></li>
                         <li><a href="#" className="text-white hover:underline">Catálogo</a></li>
-                        <li><a href="/perfil" className="text-white hover:underline">Perfil</a></li>
+                        <li><a href="/login" className="text-white hover:underline">Entrar</a></li>
                     </ul>
                 </div>
             </nav>
