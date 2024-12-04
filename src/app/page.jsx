@@ -176,7 +176,7 @@ export default function Home() {
                     {areas.map(area => {
                       return (
                         <li>
-                          <a className="text-gray-600 text-base flex items-center">
+                          <a href={'/areas/' + area.descricao} className="text-gray-600 text-base flex items-center">
                             {area.descricao}
                           </a>
                         </li>
@@ -193,12 +193,12 @@ export default function Home() {
                   {/* </a> */}
                 </li>
                 {loaded &&
-                  <div className="flex flex-col">
+                  <div  className="flex flex-col">
 
                     {autores.map(autor => {
                       return (
                         <li>
-                          <a className="text-gray-600 text-base flex items-center">
+                          <a href={'/autores/' + autor.nome} className="text-gray-600 text-base flex items-center">
                             {autor.nome}
                           </a>
                         </li>
@@ -220,7 +220,7 @@ export default function Home() {
                     {editoras.map(editora => {
                       return (
                         <li>
-                          <a className="text-gray-600 text-base flex items-center">
+                          <a href={'/editoras/' + editora.nome} className="text-gray-600 text-base flex items-center">
                             {editora.nome}
                           </a>
                         </li>
