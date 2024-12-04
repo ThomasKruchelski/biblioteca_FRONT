@@ -239,6 +239,7 @@ export default function livro({ params }) {
                                     className='mb-2 px-2 py-1 border shadow-inner rounded-full'
                                     value={livro.resumo}
                                     name='resumo'
+                                    maxlength="260"
                                     onChange={handleInputChange}
                                 ></input>
                             </label>
