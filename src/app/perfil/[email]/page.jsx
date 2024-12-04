@@ -4,6 +4,7 @@ import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
 import { clearToken } from '@/utils/verificaToken'
 import { useRouter } from 'next/navigation';
+import Header from '@/components/Header';
 
 export default function perfil({ params }) {
 
@@ -13,36 +14,36 @@ export default function perfil({ params }) {
     const queryEmail = decodeURIComponent(queryParams.email)
     console.log(queryEmail)
 
-    function logoff(){
+    function logoff() {
         clearToken()
         router.push('/login')
     }
 
     return (
-        <main class="bg-gray-100">
+        <main class="bg-gray-100 min-h-[100vh]">
+            <Header />
 
-            {/* <!-- Container Principal -->*/}
             <div class="max-w-4xl mx-auto my-10 bg-white p-6 rounded-lg shadow-md">
-                {/* <!-- Informações do Perfil --> */}
+
                 <div class="flex items-center mb-6">
                     <img src="https://via.placeholder.com/100" alt="User Avatar" class="rounded-full w-24 h-24 mr-4" />
                     <div>
                         <h2 class="text-2xl font-semibold text-black">{queryEmail}</h2>
                         <p class="text-gray-600"></p>
-                        <p class="text-gray-600">Membro desde: Janeiro 2023</p>
+                        <p class="text-gray-600">Membro desde: Dezembro 2024</p>
                         <p class="text-gray-600"></p>
                     </div>
                 </div>
 
-                {/* <!-- Seção de Preferências --> */}
-                <div class="mb-6">
+
+                {/* <div class="mb-6">
                     <h3 class="text-xl font-semibold mb-2">Preferências</h3>
                     <p class="text-gray-700">Gêneros Favoritos: Ficção Científica, Romance, Fantasia</p>
                     <p class="text-gray-700">Autores Favoritos: Isaac Asimov, Jane Austen, J.K. Rowling</p>
-                </div>
+                </div> */}
 
-                {/* <!-- Histórico de Empréstimos --> */}
-                <div class="mb-6 text-black">
+
+                {/* <div class="mb-6 text-black">
                     <h3 class="text-xl font-semibold mb-2">Histórico de Empréstimos</h3>
                     <table class="table-auto w-full text-left border-collapse">
                         <thead>
@@ -65,25 +66,25 @@ export default function perfil({ params }) {
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </div> */}
 
-                {/* <!-- Livros Reservados --> */}
-                <div class="mb-6">
+
+                {/* <div class="mb-6">
                     <h3 class="text-xl font-semibold mb-2">Livros Reservados</h3>
                     <ul class="list-disc list-inside text-gray-700">
                         <li>Fundação - Isaac Asimov (Previsto para: 15/09/2024)</li>
                         <li>O Senhor dos Anéis - J.R.R. Tolkien (Previsto para: 20/09/2024)</li>
                     </ul>
-                </div>
+                </div> */}
 
-                {/* <!-- Atualizar Dados --> */}
-                <div class="text-right">
+
+                {/* <div class="text-right">
                     <a href="/edit-profile" class="bg-purple-700 hover:bg-purple-600 text-white font-semibold py-2 px-4 rounded">
                         Atualizar Dados Cadastrais
                     </a>
-                </div>
+                </div> */}
 
-                {/* <!-- Botão Voltar para Home --> */}
+
                 <div class="mt-8 text-center">
                     <a href=".." class="bg-purple-700 text-white px-4 py-2 rounded hover:bg-purple-600">Tela inicial</a>
                 </div>

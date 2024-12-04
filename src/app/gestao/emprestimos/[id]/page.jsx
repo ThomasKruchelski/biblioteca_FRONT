@@ -35,6 +35,19 @@ export default function perfil({ params }) {
         return `${day}/${month}/${year} ${hours}:${minutes}`;
     };
 
+    const formatDatenoTime = (isoDate) => {
+        // Converte a string em um objeto Date
+        const date = new Date(isoDate);
+
+        // Extrai os componentes em UTC
+        const day = date.getUTCDate().toString().padStart(2, '0'); // Dia com dois dígitos
+        const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Mês com dois dígitos (0 = janeiro)
+        const year = date.getUTCFullYear(); // Ano
+
+        // Formata a string no formato desejado
+        return `${day}/${month}/${year}`;
+    };
+
     useEffect(() => {
         if (isTokenValid()) {
             // console.log(isTokenValid(false))
@@ -106,48 +119,48 @@ export default function perfil({ params }) {
         return `${year}-${month}-${day}`;
     }
 
-    const fetchAlteraemprestimo = async () => {
-        try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/emprestimos/id/${queryid}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(emprestimo)
-            });
+    // const fetchAlteraemprestimo = async () => {
+    //     try {
+    //         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/emprestimos/id/${queryid}`, {
+    //             method: 'PUT',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //                 'Authorization': `Bearer ${token}`
+    //             },
+    //             body: JSON.stringify(emprestimo)
+    //         });
 
-            if (!response.ok) {
-                toast.error(`Erro ao alterar usuário`, {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
+    //         if (!response.ok) {
+    //             toast.error(`Erro ao alterar usuário`, {
+    //                 position: "top-right",
+    //                 autoClose: 5000,
+    //                 hideProgressBar: false,
+    //                 closeOnClick: true,
+    //                 pauseOnHover: true,
+    //                 draggable: true,
+    //                 progress: undefined,
+    //                 theme: "colored",
 
-                });
-                throw new Error('Erro ao alterar usuário');
-            }
+    //             });
+    //             throw new Error('Erro ao alterar usuário');
+    //         }
 
-            const data = await response.json();
-            toast.success(`Usuário alterado com sucesso`, {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
+    //         const data = await response.json();
+    //         toast.success(`Usuário alterado com sucesso`, {
+    //             position: "top-right",
+    //             autoClose: 5000,
+    //             hideProgressBar: false,
+    //             closeOnClick: true,
+    //             pauseOnHover: true,
+    //             draggable: true,
+    //             progress: undefined,
+    //             theme: "colored",
 
-            });
-        } catch (error) {
-            console.error('Erro:', error);
-        }
-    };
+    //         });
+    //     } catch (error) {
+    //         console.error('Erro:', error);
+    //     }
+    // };
 
     const fetchDevolucao = async () => {
         try {
@@ -263,7 +276,7 @@ export default function perfil({ params }) {
                                 <h2 class="text-lg font-semibold text-black">Data Entrega</h2>
                                 <h2 class="text-lg font-semibold text-gray-500">
                                     {emprestimo.data_entrega ?
-                                        formatDate(emprestimo.data_entrega)
+                                        formatDatenoTime(emprestimo.data_entrega)
                                         :
                                         'Não entregue'
                                     }</h2>
@@ -277,12 +290,12 @@ export default function perfil({ params }) {
                                     {emprestimo.pagamento === 'PAGO' &&
                                         <div className='flex gap-2'>
                                             <h2 class="text-lg font-semibold text-black">Data de pagamento:</h2>
-                                            <h2 class="text-lg font-semibold text-gray-500">{formatDate(emprestimo.data_pagamento)}</h2>
+                                            <h2 class="text-lg font-semibold text-gray-500">{formatDatenoTime(emprestimo.data_pagamento)}</h2>
                                         </div>
                                     }
                                     <div className=' flex gap-2'>
                                         <h2 class="text-lg font-semibold text-black">Status pagamento:</h2>
-                                        {emprestimo.pagamento == 'N_PAGO' ?
+                                        {emprestimo.pagamento == null ?
                                             <h2 class="text-lg font-semibold text-red-500">Não pago</h2>
                                             :
                                             <h2 class="text-lg font-semibold text-green-500">Pago</h2>
@@ -293,10 +306,10 @@ export default function perfil({ params }) {
                                 </div>
                             }
                             {emprestimo.pagamento === 'PAGO' &&
-                                    <div className='flex gap-2 pt-4'>
-                                        <h2 class="text-lg font-semibold text-green-500">Emprestimo Concluído</h2>
-                                        
-                                    </div>
+                                <div className='flex gap-2 pt-4'>
+                                    <h2 class="text-lg font-semibold text-green-500">Emprestimo Concluído</h2>
+
+                                </div>
                             }
                         </div>
                         <div className='flex justify-around items-center'>
@@ -309,7 +322,7 @@ export default function perfil({ params }) {
                             }
                             {emprestimo.data_entrega &&
                                 <div>
-                                    {emprestimo.pagamento === 'N_PAGO' &&
+                                    {emprestimo.pagamento === null &&
                                         <div onClick={() => fetchPagamento()} className='px-4 py-2 rounded bg-[#669966] text-white cursor-pointer'>Marcar como Pago</div>
                                     }
                                 </div>
